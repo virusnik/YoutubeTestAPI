@@ -10,7 +10,7 @@ import UIKit
 
 class VideoTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var coverImage: UIImageView!
+    @IBOutlet weak var coverImage: AsyncImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
 

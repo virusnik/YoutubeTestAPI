@@ -13,7 +13,7 @@ class VideoListViewController: UITableViewController {
     var refreshPage: UIRefreshControl!
     let searchController = UISearchController(searchResultsController: nil)
     var timer: Timer?
-    private let timeInterval = 0.6
+    private let timeInterval = 0.4
     
     var searchResponse = SearchResponse()
     
@@ -25,6 +25,8 @@ class VideoListViewController: UITableViewController {
     private let reuseIdentifierVideoCell = "VideoTableViewCell"
     private let reuseIdentifierLoadMoreCell = "LoadMoreTableViewCell"
     private let suegueIdentifierShowDetail = "showDetailSegue"
+    
+    private let imagePlaceholder = UIImage(named: "emptyTumbnail")
     
     var requestSent = false
     
@@ -96,7 +98,7 @@ class VideoListViewController: UITableViewController {
         let itemImage = item.snippet.thumbnails.thumbnailsDefault.url.isEmpty
         if !itemImage {
             let imgURL = item.snippet.thumbnails.thumbnailsDefault.url
-            cell.imageView?.setImageFromURl(stringImageUrl: imgURL)
+            cell.coverImage.loadAsyncFrom(url: imgURL, placeholder: imagePlaceholder)
         }
         
         return cell
@@ -192,17 +194,5 @@ extension VideoListViewController: UISearchResultsUpdating {
     // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResults(for searchController: UISearchController) {
         createRequestByTimer()
-    }
-}
-
-extension UIImageView{
-    
-    func setImageFromURl(stringImageUrl url: String){
-        
-        if let url = NSURL(string: url) {
-            if let data = NSData(contentsOf: url as URL) {
-                self.image = UIImage(data: data as Data)
-            }
-        }
     }
 }
